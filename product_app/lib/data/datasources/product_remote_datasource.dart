@@ -1,23 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/product_model.dart';
 
 class ProductRemoteDatasource {
   final http.Client client;
-
   ProductRemoteDatasource(this.client);
 
   Future<List<ProductModel>> getProducts() async {
-    final response = await client.get(
-      Uri.parse("https://fakestoreapi.com/products"),
-    );
+    final baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://fakestoreapi.com';
+    final response = await client.get(Uri.parse("$baseUrl/products"));
 
     if (response.statusCode == 200) {
-      final List data = jsonDecode(response.body);
-
+      final List data = json.decode(response.body);
       return data.map((json) => ProductModel.fromJson(json)).toList();
     } else {
-      throw Exception("Erro ao carregar produtos");
+      throw Exception("Erro ao buscar produtos");
     }
   }
 }

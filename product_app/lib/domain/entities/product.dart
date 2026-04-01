@@ -3,7 +3,6 @@ class Product {
   final String title;
   final double price;
   final String image;
-
   const Product({
     required this.id,
     required this.title,

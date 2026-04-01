@@ -1,5 +1,3 @@
-import '../../domain/entities/product.dart';
-
 class ProductModel {
   final int id;
   final String title;
